@@ -53,6 +53,7 @@
                 <th scope="col">Data i godzina przyjścia</th>
                 <th scope="col">Data i godzina odejścia</th>
                 <th scope="col"></th>
+                <th scope="col"></th>
             </thead>
             <tbody>
                 <tr *ngFor="let schedule of ship.schedules">
@@ -63,6 +64,12 @@
                         {{schedule.departure | date : 'y-MM-dd H:mm'}}
                     </td>
                     <td>
+                        <button *ngIf="!(schedule.arrivalSent || schedule.departureSent)" class="btn btn-danger"
+                        class="btn btn-warning" (click)="showEditModal(schedule)">
+                        Edytuj
+                    </button>
+                </td>
+                <td>
                         <button *ngIf="!(schedule.arrivalSent || schedule.departureSent)" class="btn btn-danger"
                             class="btn btn-danger" (click)="showDeleteModal(schedule)">
                             Usuń
@@ -103,33 +110,25 @@
                     <h2 class="centered">{{selectedSchedule.id ? 'Edycja': 'Dodawanie' }} harmonogramu</h2>
                 </header>
                 <div class="w3-container modal-body">
-                    <p>Data przyjścia: <b>{{selectedSchedule.arrival | date : 'y-MM-dd H:mm'}}</b></p>
-                    <div class="row time-picker-wrapper">Godzina przyjścia:
-                        <b>{{arrivalTimeValue}}</b>
-                        <ngx-material-timepicker #arrivalTime></ngx-material-timepicker>
-                        <ngx-material-timepicker-toggle [for]="arrivalTime" ></ngx-material-timepicker-toggle>
-                        <input [ngxTimepicker]="arrivalTime" [ngxTimepicker]="fullTime" [format]="24"
-                             [value]="arrivalTimeValue"
-                             [(ngModel)]="arrivalTimeValue" 
-                            [ngxTimepicker]="arrivalTime" [disableClick]="true" [hidden]="true">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">Data i godzina przyjścia</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control-plaintext" [(ngModel)]="arrivalValue">
+                        </div>
                     </div>
-                    <p>Data odejścia: <b>{{selectedSchedule.departure | date : 'y-MM-dd H:mm'}}</b></p>
-                    <div class="row time-picker-wrapper">Godzina odejścia:
-                        <b>{{departureTimeValue}}</b>
-                        <ngx-material-timepicker #departureTime></ngx-material-timepicker>
-                        <ngx-material-timepicker-toggle [for]="departureTime"></ngx-material-timepicker-toggle>
-                        <input [ngxTimepicker]="departureTime" [ngxTimepicker]="fullTime" [format]="24"
-                        [value]="departureTimeValue"
-                        [(ngModel)]="departureTimeValue" 
-                            [ngxTimepicker]="departureTime" [disableClick]="true" [hidden]="true">
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-5 col-form-label">Data i godzina odejścia</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control-plaintext" [(ngModel)]="departureValue">
+                        </div>
                     </div>
-
+                   
                 </div>
                 <footer class="w3-container modal-footer">
                     <button class="btn btn-info mr-auto" (click)="hideEditModal()">
                         Anuluj
                     </button>
-                    <button class="btn btn-danger" (click)="saveSchedule()">
+                    <button class="btn btn-danger" (click)="saveSchedule()" [disabled]="invalidDate">
                         Zapisz
                     </button>
                 </footer>
