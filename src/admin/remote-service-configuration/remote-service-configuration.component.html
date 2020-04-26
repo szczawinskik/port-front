@@ -1,4 +1,24 @@
 <h3>
     Aktualny adres zdalnej usługi
 </h3>
-<p>{{serviceAddress | async}}</p>
+<div *ngIf="isLoading; else dataLoaded">
+    Trwa ładowanie danych...
+</div>
+<ng-template #dataLoaded>
+    <ng-container *ngIf="!isEdit; else editTemplate">
+        <h5>{{serviceAddress}}</h5>
+        <p class="centered">
+            <button class="btn btn-info" (click)="switchToEdit()">Zmień</button>
+        </p>
+    </ng-container>
+    <ng-template #editTemplate>
+        <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="newAddress" aria-describedby="emailHelp"
+            placeholder="Adres zdalnej usługi">
+        </div>
+        <p>
+            <button (click)="switchToView()" class="btn btn-info">Anuluj</button>
+            <button (click)="changeAddress()"class="btn btn-success btn-right" [disabled]="!newAddress">Zapisz</button>
+        </p>
+    </ng-template>
+</ng-template>

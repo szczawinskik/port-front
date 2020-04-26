@@ -9,15 +9,41 @@ import { Observable } from 'rxjs';
 })
 export class RemoteServiceConfigurationComponent implements OnInit {
 
-  serviceAddress: Observable<string>;
+  isEdit = false;
+  serviceAddress = '';
+  newAddress = '';
+  isLoading = false;
   constructor(private service: RemoteServiceConfigurationService) { }
 
   ngOnInit() {
     this.getServiceAddress();
   }
 
+  switchToEdit() {
+    this.newAddress = this.serviceAddress;
+    this.isEdit = true;
+  }
+
+  switchToView() {
+    this.isEdit = false;
+  }
+
+  changeAddress() {
+    this.isLoading = true;
+    this.service.setRemoteServiceConfigurationAddress(this.newAddress)
+      .subscribe(() => {
+        this.serviceAddress = this.newAddress;
+        this.isEdit = false;
+        this.isLoading = false;
+      });
+  }
 
   private getServiceAddress() {
-    this.serviceAddress = this.service.getRemoteServiceConfigurationAddress();
+    this.isLoading = true;
+    this.service.getRemoteServiceConfigurationAddress()
+      .subscribe(currentAddress => {
+        this.serviceAddress = currentAddress;
+        this.isLoading = false;
+      });
   }
 }
