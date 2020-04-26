@@ -1,12 +1,15 @@
-export interface ClosestSchedule {
+export interface Schedule {
     id: number;
     arrival: Date;
     departure: Date;
+    arrivalSent?: boolean;
+    departureSent?: boolean;
 }
 
 export interface Ship {
     id: number;
     name: string;
     shipOwnerName: string;
-    closestSchedule: ClosestSchedule;
+    closestSchedule: Schedule;
+    schedules: Schedule[];
 }

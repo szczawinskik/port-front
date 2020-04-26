@@ -2,10 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { CommonsModule } from 'src/commons/commons.module';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { CommonsModule } from 'src/commons/commons.module';
 import { AuthService } from 'src/commons/services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { ShipsListComponent } from './ships/ships-list/ships-list.component';
@@ -26,7 +28,8 @@ import { ScheduleTableComponent } from './ships/schedule-table/schedule-table.co
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    CommonsModule
+    CommonsModule,
+    NgxMaterialTimepickerModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

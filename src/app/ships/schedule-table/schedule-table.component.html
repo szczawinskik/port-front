@@ -1,17 +1,30 @@
 <h3 class="centered">
     Bieżący harmonogram statków
+   
 </h3>
 <p class="centered" *ngIf="isLoading; else shipList">
     Trwa ładowanie...
 </p>
 <ng-template #shipList>
+    <p>
+        <span class="form-check" style="display:inline-block">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1"
+             [(ngModel)]="autoRefresh" (change)="autoRefreshChanged()">
+            <label class="form-check-label" for="exampleCheck1">Auto odświeżanie</label>
+          </span>
+        <button class="btn btn-secondary btn-refesh" (click)="loadShips()">
+            Odśwież
+        </button>
+    </p>
     <table class="table table-striped">
         <thead>
             <th scope="col">#</th>
             <th scope="col">Armator</th>
             <th scope="col">Nazwa</th>
             <th scope="col">Data i godzina przyjścia</th>
+            <th scope="col">Potwierdzenie przyjścia</th>
             <th scope="col">Data i godzina odejścia</th>
+            <th scope="col">Potwierdzenie odejścia</th>
             <th scope="col"></th>
         </thead>
         <tbody>
@@ -26,10 +39,16 @@
                     {{ship.name}}
                 </td>
                 <td>
-                    {{ship.closestSchedule ? (ship.closestSchedule.arrival | date : 'y-MM-dd H:mm') : ''}}
+                    {{ship.closestSchedule.arrival | date : 'y-MM-dd H:mm'}}
                 </td>
                 <td>
-                    {{ship.closestSchedule ? (ship.closestSchedule.departure | date : 'y-MM-dd H:mm') : ''}}
+                    {{getDescription(ship.closestSchedule.arrivalSent)}}
+                </td>
+                <td>
+                    {{ship.closestSchedule.departure | date : 'y-MM-dd H:mm'}}
+                </td>
+                <td>
+                    {{getDescription(ship.closestSchedule.departureSent)}}
                 </td>
                 <td>
                     <a class="btn btn-primary" routerLink="{{'/ship-details/' + ship.id}}">

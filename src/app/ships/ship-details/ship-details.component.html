@@ -28,4 +28,112 @@
             </div>
         </div>
     </ng-container>
+    <ng-container *ngIf="ship.schedules">
+        <h3 class="centered">
+            Lista tygodniowa
+        </h3>
+        <h4 class="centered">
+            <button class="btn btn-primary" style="float:left" (click)="showEditModal()">
+                Dodaj
+            </button>
+            <button class="btn btn-info">
+                &lt; </button>
+            <span>
+                Tydzień {{weekStart | date : 'MM-dd'}} - {{weekEnd | date : 'MM-dd'}}
+            </span>
+            <button class="btn btn-info">
+                &gt;
+            </button>
+            <button class="btn btn-secondary" style="float: right;">
+                Kopiuj tydzień
+            </button>
+        </h4>
+        <table class="table table-striped">
+            <thead>
+                <th scope="col">Data i godzina przyjścia</th>
+                <th scope="col">Data i godzina odejścia</th>
+                <th scope="col"></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let schedule of ship.schedules">
+                    <td>
+                        {{schedule.arrival | date : 'y-MM-dd H:mm'}}
+                    </td>
+                    <td>
+                        {{schedule.departure | date : 'y-MM-dd H:mm'}}
+                    </td>
+                    <td>
+                        <button *ngIf="!(schedule.arrivalSent || schedule.departureSent)" class="btn btn-danger"
+                            class="btn btn-danger" (click)="showDeleteModal(schedule)">
+                            Usuń
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+    <div class="w3-container">
+        <div class="w3-modal " *ngIf="deleteModal">
+            <div class="w3-modal-content delete-modal">
+                <header class="w3-container w3-teal">
+                    <span (click)="hideDeleteModal()" class="w3-button w3-display-topright">&times;</span>
+                    <h2 class="centered">Czy na pewno chcesz usunąć harmonogram?</h2>
+                </header>
+                <div class="w3-container modal-body">
+                    <p>Data i godzina przyjścia: <b>{{selectedSchedule.arrival | date : 'y-MM-dd H:mm'}}</b></p>
+                    <p>Data i godzina odejścia: <b>{{selectedSchedule.departure | date : 'y-MM-dd H:mm'}}</b></p>
+                </div>
+                <footer class="w3-container modal-footer">
+                    <button class="btn btn-info mr-auto" (click)="hideDeleteModal()">
+                        Anuluj
+                    </button>
+                    <button class="btn btn-danger" (click)="deleteSchedule()">
+                        Usuń
+                    </button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container">
+        <div class="w3-modal " *ngIf="editModal">
+            <div class="w3-modal-content delete-modal">
+                <header class="w3-container w3-teal">
+                    <span (click)="hideEditModal()" class="w3-button w3-display-topright">&times;</span>
+                    <h2 class="centered">{{selectedSchedule.id ? 'Edycja': 'Dodawanie' }} harmonogramu</h2>
+                </header>
+                <div class="w3-container modal-body">
+                    <p>Data przyjścia: <b>{{selectedSchedule.arrival | date : 'y-MM-dd H:mm'}}</b></p>
+                    <div class="row time-picker-wrapper">Godzina przyjścia:
+                        <b>{{arrivalTimeValue}}</b>
+                        <ngx-material-timepicker #arrivalTime></ngx-material-timepicker>
+                        <ngx-material-timepicker-toggle [for]="arrivalTime" ></ngx-material-timepicker-toggle>
+                        <input [ngxTimepicker]="arrivalTime" [ngxTimepicker]="fullTime" [format]="24"
+                             [value]="arrivalTimeValue"
+                             [(ngModel)]="arrivalTimeValue" 
+                            [ngxTimepicker]="arrivalTime" [disableClick]="true" [hidden]="true">
+                    </div>
+                    <p>Data odejścia: <b>{{selectedSchedule.departure | date : 'y-MM-dd H:mm'}}</b></p>
+                    <div class="row time-picker-wrapper">Godzina odejścia:
+                        <b>{{departureTimeValue}}</b>
+                        <ngx-material-timepicker #departureTime></ngx-material-timepicker>
+                        <ngx-material-timepicker-toggle [for]="departureTime"></ngx-material-timepicker-toggle>
+                        <input [ngxTimepicker]="departureTime" [ngxTimepicker]="fullTime" [format]="24"
+                        [value]="departureTimeValue"
+                        [(ngModel)]="departureTimeValue" 
+                            [ngxTimepicker]="departureTime" [disableClick]="true" [hidden]="true">
+                    </div>
+
+                </div>
+                <footer class="w3-container modal-footer">
+                    <button class="btn btn-info mr-auto" (click)="hideEditModal()">
+                        Anuluj
+                    </button>
+                    <button class="btn btn-danger" (click)="saveSchedule()">
+                        Zapisz
+                    </button>
+                </footer>
+            </div>
+        </div>
+    </div>
 </ng-container>
