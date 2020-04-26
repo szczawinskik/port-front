@@ -1,27 +1,35 @@
 <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
     <img src="/assets/anchor.svg" class="header-image">
     <a class="navbar-brand" routerLink="/">Port Demo</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-  
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             Statki
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Harmonogram</a>
-              <a class="dropdown-item" href="#">Dodaj statek</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Statki
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Harmonogram</a>
+                    <a class="dropdown-item" href="#">Dodaj statek</a>
+                </div>
+            </li>
+            <li class="nav-item" *ngIf="isAdmin">
+                <a class="nav-link" routerLink="/contact-list">Konfiguracja</a>
+            </li>
+        </ul>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{isAdmin ? 'Admin' : 'Użytkownik'}}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <span class="dropdown-item" *ngIf="!isAdmin" (click)="setAdmin()">Admin</span>
+                <span class="dropdown-item" *ngIf="isAdmin" (click)="setUser()">Użytkownik</span>
             </div>
-          </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/contact-list">Konfiguracja</a>
-        </li>
-       
-  
-      </ul>
+        </div>
     </div>
-  </nav>
+</nav>
