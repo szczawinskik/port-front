@@ -10,6 +10,7 @@ import { AuthService } from 'src/commons/services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { ShipsListComponent } from './ships/ships-list/ships-list.component';
 import { ShipDetailsComponent } from './ships/ship-details/ship-details.component';
+import { ScheduleTableComponent } from './ships/schedule-table/schedule-table.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ShipDetailsComponent } from './ships/ship-details/ship-details.componen
     FooterComponent,
     HomeComponent,
     ShipsListComponent,
-    ShipDetailsComponent
+    ShipDetailsComponent,
+    ScheduleTableComponent
   ],
   imports: [
     BrowserModule,

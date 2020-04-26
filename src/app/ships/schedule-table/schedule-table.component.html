@@ -1,5 +1,5 @@
 <h3 class="centered">
-    Lista statków
+    Bieżący harmonogram statków
 </h3>
 <p class="centered" *ngIf="isLoading; else shipList">
     Trwa ładowanie...
@@ -10,6 +10,8 @@
             <th scope="col">#</th>
             <th scope="col">Armator</th>
             <th scope="col">Nazwa</th>
+            <th scope="col">Data i godzina przyjścia</th>
+            <th scope="col">Data i godzina odejścia</th>
             <th scope="col"></th>
         </thead>
         <tbody>
@@ -22,6 +24,12 @@
                 </td>
                 <td>
                     {{ship.name}}
+                </td>
+                <td>
+                    {{ship.closestSchedule ? (ship.closestSchedule.arrival | date : 'y-MM-dd H:mm') : ''}}
+                </td>
+                <td>
+                    {{ship.closestSchedule ? (ship.closestSchedule.departure | date : 'y-MM-dd H:mm') : ''}}
                 </td>
                 <td>
                     <a class="btn btn-primary" routerLink="{{'/ship-details/' + ship.id}}">
