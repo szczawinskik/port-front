@@ -1,0 +1,43 @@
+<h3 class="centered">
+    Bieżący harmonogram statków
+</h3>
+<p class="centered" *ngIf="isLoading; else shipList">
+    Trwa ładowanie...
+</p>
+<ng-template #shipList>
+    <table class="table table-striped">
+        <thead>
+            <th scope="col">#</th>
+            <th scope="col">Armator</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Data i godzina przyjścia</th>
+            <th scope="col">Data i godzina odejścia</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ship of ships; let i = index;">
+                <td>
+                    {{i + 1}}
+                </td>
+                <td>
+                    {{ship.shipOwnerName}}
+                </td>
+                <td>
+                    {{ship.name}}
+                </td>
+                <td>
+                    {{ship.closestSchedule ? (ship.closestSchedule.arrival | date : 'y-MM-dd H:mm') : ''}}
+                </td>
+                <td>
+                    {{ship.closestSchedule ? (ship.closestSchedule.departure | date : 'y-MM-dd H:mm') : ''}}
+                </td>
+                <td>
+                    <button class="btn btn-primary">
+                        Szczegóły
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</ng-template>
