@@ -10,6 +10,7 @@ import {HttpClientModule} from '@angular/common/http';
     CommonModule,
     HttpClientModule
   ],
-  providers: [AuthService]
+  providers: [AuthService],
+  exports: [CommonModule]
 })
 export class CommonsModule { }

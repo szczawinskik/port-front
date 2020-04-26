@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RemoteServiceConfigurationService } from '../services/remote-service-configuration.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-remote-service-configuration',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RemoteServiceConfigurationComponent implements OnInit {
 
-  constructor() { }
+  serviceAddress: Observable<string>;
+  constructor(private service: RemoteServiceConfigurationService) { }
 
   ngOnInit() {
+    this.getServiceAddress();
   }
 
+
+  private getServiceAddress() {
+    this.serviceAddress = this.service.getRemoteServiceConfigurationAddress();
+  }
 }
