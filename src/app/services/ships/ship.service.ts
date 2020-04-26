@@ -12,4 +12,8 @@ export class ShipService {
   getShips() {
     return this.http.get<Ship[]>(`${this.apiUrl}GetAll`);
   }
+
+  getShip(shipId: number) {
+    return this.http.get<Ship>(`${this.apiUrl}/${shipId}`);
+  }
 }

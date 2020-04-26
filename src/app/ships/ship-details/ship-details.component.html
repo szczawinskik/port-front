@@ -1,1 +1,31 @@
-<p>ship-details works!</p>
+<p *ngIf="isLoading">
+    Trwa ładowanie danych...
+</p>
+<ng-container *ngIf="ship && !isLoading">
+    <div class="col-md-6">
+        Nazwa statku: {{ship.name}}
+    </div>
+    <div class="col-md-6">
+        Nazwa armatora: {{ship.shipOwnerName}}
+    </div>
+    <ng-container *ngIf="ship.closestSchedule">
+        <div class="col-md-12 centered">
+            Najbliższy termin
+        </div>
+        <div class="row">
+
+            <div class="col-md-3 centered">
+                Data i godzina przyjścia
+            </div>
+            <div class="col-md-3 centered">
+                {{ship.closestSchedule.arrival | date : 'y-MM-dd H:mm'}}
+            </div>
+            <div class="col-md-3 centered">
+                Data i godzina odejścia
+            </div>
+            <div class="col-md-3 centered">
+                {{ship.closestSchedule.departure | date : 'y-MM-dd H:mm' }}
+            </div>
+        </div>
+    </ng-container>
+</ng-container>

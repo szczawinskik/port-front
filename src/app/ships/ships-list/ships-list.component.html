@@ -32,9 +32,9 @@
                     {{ship.closestSchedule ? (ship.closestSchedule.departure | date : 'y-MM-dd H:mm') : ''}}
                 </td>
                 <td>
-                    <button class="btn btn-primary">
+                    <a class="btn btn-primary" routerLink="{{'/ship-details/' + ship.id}}">
                         Szczegóły
-                    </button>
+                    </a>
                 </td>
             </tr>
         </tbody>
