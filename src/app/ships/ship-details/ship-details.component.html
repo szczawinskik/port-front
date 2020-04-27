@@ -1,4 +1,4 @@
-<p *ngIf="isLoading">
+<p *ngIf="isLoading" class="centered">
     Trwa ładowanie danych...
 </p>
 <ng-container *ngIf="ship && !isLoading">
@@ -38,7 +38,7 @@
             Lista tygodniowa
         </h3>
         <h4 class="centered">
-            <button class="btn btn-primary" style="float:left" (click)="showEditModal()">
+            <button class="btn btn-primary btn-list" style="float:left" (click)="showEditModal()">
                 Dodaj
             </button>
             <button class="btn btn-info" (click)="previousWeek()">
@@ -49,7 +49,7 @@
             <button class="btn btn-info" (click)="nextWeek()">
                 &gt;
             </button>
-            <button class="btn btn-secondary" style="float: right;" >
+            <button class="btn btn-secondary btn-list" style="float: right;" (click)="copyCurrentWeek()">
                 Kopiuj tydzień
             </button>
         </h4>
@@ -61,7 +61,7 @@
                 <th scope="col"></th>
             </thead>
             <tbody>
-                <tr *ngFor="let schedule of ship.schedules">
+                <tr *ngFor="let schedule of schedulesInWeek">
                     <td>
                         {{schedule.arrival | date : 'y-MM-dd H:mm'}}
                     </td>
@@ -118,19 +118,66 @@
                     <div class="form-group row">
                         <label for="staticEmail" class="col-sm-5 col-form-label">Data i godzina przyjścia</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control-plaintext" [(ngModel)]="arrivalValue">
+                            <input type="text" class="form-control" [(ngModel)]="arrivalValue">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="staticEmail" class="col-sm-5 col-form-label">Data i godzina odejścia</label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control-plaintext" [(ngModel)]="departureValue">
+                            <input type="text" class="form-control" [(ngModel)]="departureValue">
                         </div>
                     </div>
-
+                    <div *ngIf="invalidDate" class="error-message">
+                        Wprowadzone dane są niepoprawne
+                    </div>
+                    <div *ngIf="scheduleOverlap" class="error-message">
+                        Wprowadzony harmonogram pokrywa się z innym
+                    </div>
+                    
                 </div>
                 <footer class="w3-container modal-footer">
                     <button class="btn btn-info mr-auto" (click)="hideEditModal()">
+                        Anuluj
+                    </button>
+                    <button class="btn btn-danger" (click)="saveSchedule()" [disabled]="invalidDate">
+                        Zapisz
+                    </button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container">
+        <div class="w3-modal " *ngIf="copyModal">
+            <div class="w3-modal-content delete-modal">
+                <header class="w3-container w3-teal">
+                    <span (click)="hideCopyModal()" class="w3-button w3-display-topright">&times;</span>
+                    <h2 class="centered">Kopiowanie harmonogramu</h2>
+                </header>
+                <div class="w3-container modal-body">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card z-depth-0 bordered" *ngFor="let schedule of copyModalItems; let i = index">
+                          <div class="card-header" [id]="'heading' + i">
+                            <h5 class="mb-0">
+                              <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#collapse' + i"
+                                aria-expanded="true" [attr.aria-controls]="'#collapse' + i">
+                                Collapsible Group Item #1
+                              </button>
+                            </h5>
+                          </div>
+                          <div [id]="'heading' + i" class="collapse show"  aria-labelledby="headingOne"
+                            data-parent="#accordionExample">
+                            <div class="card-body">
+                             
+                              labore sustainable.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                </div>
+                <footer class="w3-container modal-footer">
+                    <button class="btn btn-info mr-auto" (click)="hideCopyModal()">
                         Anuluj
                     </button>
                     <button class="btn btn-danger" (click)="saveSchedule()" [disabled]="invalidDate">

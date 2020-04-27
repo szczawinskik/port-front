@@ -1,7 +1,13 @@
-.centered{
+.centered, .error-message{
     text-align: center;
 }
 
 .w3-modal{
     display: block;
+}
+
+.error-message{
+    font-size: 12px;
+    font-weight: bold;
+    color: lightcoral;
 }
