@@ -2,34 +2,39 @@
     Trwa ładowanie danych...
 </p>
 <ng-container *ngIf="ship && !isLoading">
-    <div class="col-md-6">
-        Nazwa statku: {{ship.name}}
+    <div class="col-md-12 centered big-box shipname">
+        <h2>
+            {{ship.name}}
+        </h2>
     </div>
-    <div class="col-md-6">
-        Nazwa armatora: {{ship.shipOwnerName}}
+    <div class="col-md-12 centered big-box">
+        <h4>
+            {{ship.shipOwnerName}}
+        </h4>
     </div>
     <ng-container *ngIf="ship.closestSchedule">
         <div class="col-md-12 centered">
-            Najbliższy termin
+            <h4>
+                Najbliższy termin w porcie
+            </h4>
         </div>
         <div class="row">
-
-            <div class="col-md-3 centered">
+            <div class="col-md-6 centered">
                 Data i godzina przyjścia
             </div>
-            <div class="col-md-3 centered">
-                {{ship.closestSchedule.arrival | date : 'y-MM-dd H:mm'}}
-            </div>
-            <div class="col-md-3 centered">
+            <div class="col-md-6 centered">
                 Data i godzina odejścia
             </div>
-            <div class="col-md-3 centered">
-                {{ship.closestSchedule.departure | date : 'y-MM-dd H:mm' }}
+            <div class="col-md-6 centered">
+                <b>{{ship.closestSchedule.arrival | date : 'y-MM-dd H:mm'}}</b>
+            </div>
+            <div class="col-md-6 centered">
+                <b>{{ship.closestSchedule.departure | date : 'y-MM-dd H:mm' }}</b>
             </div>
         </div>
     </ng-container>
     <ng-container *ngIf="ship.schedules">
-        <h3 class="centered">
+        <h3 class="centered big-box">
             Lista tygodniowa
         </h3>
         <h4 class="centered">
