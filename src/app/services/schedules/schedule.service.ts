@@ -19,4 +19,7 @@ export class ScheduleService {
   editSchedule(schedule: Schedule) {
     return this.http.put(`${this.apiUrl}`, schedule);
   }
+  bulkAdd(schedules: Schedule[], shipId: number) {
+    return this.http.post(`${this.apiUrl}/BulkAdd/${shipId}`, schedules);
+  }
 }

@@ -13,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { ShipsListComponent } from './ships/ships-list/ships-list.component';
 import { ShipDetailsComponent } from './ships/ship-details/ship-details.component';
 import { ScheduleTableComponent } from './ships/schedule-table/schedule-table.component';
+import { NgbAccordionModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ScheduleTableComponent } from './ships/schedule-table/schedule-table.co
     BrowserAnimationsModule,
     AppRoutingModule,
     CommonsModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    NgbAccordionModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
