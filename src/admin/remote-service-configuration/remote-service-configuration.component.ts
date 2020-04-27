@@ -34,10 +34,10 @@ export class RemoteServiceConfigurationComponent implements OnInit {
       .subscribe(() => {
         this.serviceAddress = this.newAddress;
         this.isEdit = false;
+        this.isLoading = false;
       },
         () => {
           this.isLoading = false;
-        }, () => {
         });
   }
 
