@@ -41,6 +41,12 @@ export class ShipDetailsComponent implements OnInit {
       });
   }
 
+  addDays(date: Date, days: number): Date {
+    const result = new Date();
+    result.setDate(date.getDate() + days);
+    return result;
+  }
+
   setupWeek() {
     const curr = new Date();
     const first = curr.getDate() - curr.getDay() - 6;
@@ -49,6 +55,17 @@ export class ShipDetailsComponent implements OnInit {
     this.weekStart = new Date(curr.setDate(first));
     this.weekEnd = new Date(curr.setDate(last));
   }
+
+  previousWeek() {
+    this.weekStart = this.addDays(this.weekStart, -7);
+    this.weekEnd = this.addDays(this.weekEnd, -7);
+  }
+
+  nextWeek() {
+    this.weekStart = this.addDays(this.weekStart, 7);
+    this.weekEnd = this.addDays(this.weekEnd, 7);
+  }
+
   showDeleteModal(schedule: Schedule) {
     this.selectedSchedule = schedule;
     this.deleteModal = true;

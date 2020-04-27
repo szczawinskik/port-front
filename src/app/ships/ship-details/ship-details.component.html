@@ -41,15 +41,15 @@
             <button class="btn btn-primary" style="float:left" (click)="showEditModal()">
                 Dodaj
             </button>
-            <button class="btn btn-info">
+            <button class="btn btn-info" (click)="previousWeek()">
                 &lt; </button>
             <span>
-                Tydzień {{weekStart | date : 'MM-dd'}} - {{weekEnd | date : 'MM-dd'}}
+                Tydzień {{weekStart | date : 'dd-MM'}} - {{weekEnd | date : 'dd-MM'}}
             </span>
-            <button class="btn btn-info">
+            <button class="btn btn-info" (click)="nextWeek()">
                 &gt;
             </button>
-            <button class="btn btn-secondary" style="float: right;">
+            <button class="btn btn-secondary" style="float: right;" >
                 Kopiuj tydzień
             </button>
         </h4>
@@ -70,11 +70,11 @@
                     </td>
                     <td>
                         <button *ngIf="!(schedule.arrivalSent || schedule.departureSent)" class="btn btn-danger"
-                        class="btn btn-warning" (click)="showEditModal(schedule)">
-                        Edytuj
-                    </button>
-                </td>
-                <td>
+                            class="btn btn-warning" (click)="showEditModal(schedule)">
+                            Edytuj
+                        </button>
+                    </td>
+                    <td>
                         <button *ngIf="!(schedule.arrivalSent || schedule.departureSent)" class="btn btn-danger"
                             class="btn btn-danger" (click)="showDeleteModal(schedule)">
                             Usuń
@@ -127,7 +127,7 @@
                             <input type="text" class="form-control-plaintext" [(ngModel)]="departureValue">
                         </div>
                     </div>
-                   
+
                 </div>
                 <footer class="w3-container modal-footer">
                     <button class="btn btn-info mr-auto" (click)="hideEditModal()">
