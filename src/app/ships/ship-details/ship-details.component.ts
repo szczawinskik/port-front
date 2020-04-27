@@ -155,14 +155,14 @@ export class ShipDetailsComponent implements OnInit {
   }
 
   saveSchedule() {
+    this.selectedSchedule.arrival = new Date(this.arrivalValue);
+    this.selectedSchedule.departure = new Date(this.departureValue);
     if (this.isInOtherSchedule(this.selectedSchedule)) {
       this.scheduleOverlap = true;
       return;
     }
     this.scheduleOverlap = false;
     if (this.selectedSchedule) {
-      this.selectedSchedule.arrival = new Date(this.arrivalValue);
-      this.selectedSchedule.departure = new Date(this.departureValue);
       if (this.selectedSchedule.id) {
         this.scheduleService
           .editSchedule(this.selectedSchedule)
@@ -250,6 +250,7 @@ export class ShipDetailsComponent implements OnInit {
 
 
   copySchedule() {
+    this.scheduleOverlap = false;
     const schedulesToSend: Schedule[] = [];
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.copyModalArrivals.length; i++) {
