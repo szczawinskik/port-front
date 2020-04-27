@@ -35,7 +35,7 @@ export class ToastrHttpInterceptor implements HttpInterceptor {
                             this.service.error('Wystąpił nieznany błąd');
                         }
                     }
-                    return new Observable<HttpEvent<any>>();
+                    throw new HttpErrorResponse({ });
                 }));
     }
 }
