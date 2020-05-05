@@ -35,7 +35,7 @@ export class ShipDetailsComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private service: ShipService,
-    private scheduleService: ScheduleService) { }
+              private scheduleService: ScheduleService) { }
 
   ngOnInit() {
     this.setupWeek();
