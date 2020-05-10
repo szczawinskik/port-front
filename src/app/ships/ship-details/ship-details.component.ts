@@ -35,10 +35,10 @@ export class ShipDetailsComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private service: ShipService,
-              private scheduleService: ScheduleService) { }
+    private scheduleService: ScheduleService) { }
 
   ngOnInit() {
-    this.setupWeek();
+    this.setupWeek(new Date());
     this.isLoading = true;
     this.shipId = this.route.snapshot.params.shipId;
     if (this.shipId) {
@@ -67,16 +67,16 @@ export class ShipDetailsComponent implements OnInit {
     return result;
   }
 
-  setupWeek() {
-    let curr = new Date();
-    const first = curr.getDay() === 1 ? curr.getDate() : curr.getDate() - curr.getDay() - 6;
+  setupWeek(date: Date) {
+    let curr = new Date(date.toUTCString());
+    const first = curr.getDay() === 1 ? curr.getDate() : curr.getDate() - (curr.getDay() === 0 ? 7 : curr.getDay()) + 1;
     const last = first + 6;
     this.weekStart = new Date(curr.setDate(first));
     this.weekStart.setHours(0, 0, 0, 0);
     this.weekEnd = new Date(curr.setDate(last));
     this.weekEnd.setHours(0, 0, 0, 0);
 
-    curr = new Date();
+    curr = new Date(date.toUTCString());
     this.modalWeekStart = new Date(curr.setDate(first));
     this.modalWeekStart.setHours(0, 0, 0, 0);
     this.modalWeekEnd = new Date(curr.setDate(last));
@@ -112,8 +112,7 @@ export class ShipDetailsComponent implements OnInit {
     this.schedulesInWeek = this.ship.schedules
       .filter(x => {
         return x.arrival > this.weekStart && realWeekEnd > x.arrival;
-      }
-      );
+      });
   }
 
   showDeleteModal(schedule: Schedule) {
