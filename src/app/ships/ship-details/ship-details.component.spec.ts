@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Schedule } from 'src/commons/entities/Ship';
 import { ScheduleService } from 'src/app/services/schedules/schedule.service';
 import { of } from 'rxjs';
+import { DeleteScheduleModalComponent } from 'src/app/schedules/delete-schedule-modal/delete-schedule-modal.component';
 
 class ScheduleServiceMock {
   deleteSchedule(scheduleId: number) { return null; }
@@ -24,7 +25,10 @@ describe('ShipDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, NgbAccordionModule, HttpClientTestingModule,
         RouterTestingModule.withRoutes([])],
-      declarations: [ShipDetailsComponent],
+      declarations: [
+        ShipDetailsComponent,
+        DeleteScheduleModalComponent
+      ],
       providers: [
         {
           provide: ActivatedRoute,
