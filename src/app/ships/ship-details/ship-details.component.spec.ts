@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
 
 import { ShipDetailsComponent } from './ship-details.component';
 import { FormsModule } from '@angular/forms';
@@ -7,10 +7,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Schedule } from 'src/commons/entities/Ship';
+import { ScheduleService } from 'src/app/services/schedules/schedule.service';
+import { of } from 'rxjs';
+
+class ScheduleServiceMock {
+  deleteSchedule(scheduleId: number) { return null; }
+}
 
 describe('ShipDetailsComponent', () => {
   let component: ShipDetailsComponent;
   let fixture: ComponentFixture<ShipDetailsComponent>;
+  let service: ScheduleService;
+  let injector: TestBed;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,7 +35,11 @@ describe('ShipDetailsComponent', () => {
               }
             }
           }
-        }]
+        },
+        {
+          provide: ScheduleService, useClass: ScheduleServiceMock
+        }
+      ]
     })
       .compileComponents();
   }));
@@ -262,4 +274,96 @@ describe('ShipDetailsComponent', () => {
     });
   });
 
+  describe('deleteSchedule', () => {
+    let scheduleToDelete: Schedule;
+    beforeEach(() => {
+      injector = getTestBed();
+      service = injector.get(ScheduleService);
+      spyOn(service, 'deleteSchedule')
+        .and
+        .returnValue(of('test'));
+
+      spyOn(component, 'hideDeleteModal');
+      spyOn(component, 'loadShipData');
+      scheduleToDelete = {
+        arrival: new Date(),
+        departure: new Date(),
+        id: 1
+      };
+    });
+    it('should not invoke service when selectedSchedule is null', () => {
+      component.selectedSchedule = null;
+
+      component.deleteSchedule();
+
+      expect(service.deleteSchedule).toHaveBeenCalledTimes(0);
+    });
+
+    it('should invoke service when selectedSchedule is not null', () => {
+      component.selectedSchedule = scheduleToDelete;
+
+      component.deleteSchedule();
+
+      expect(service.deleteSchedule).toHaveBeenCalledWith(scheduleToDelete.id);
+      expect(service.deleteSchedule).toHaveBeenCalledTimes(1);
+    });
+
+    it('should reload data and hide modal', () => {
+      component.selectedSchedule = scheduleToDelete;
+
+      component.deleteSchedule();
+
+      expect(component.loadShipData).toHaveBeenCalledTimes(1);
+      expect(component.hideDeleteModal).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('showEditModal', () => {
+    let scheduleToEdit: Schedule;
+    const stringDates = ['date1', 'date2'];
+    beforeEach(() => {
+      scheduleToEdit = {
+        arrival: new Date(2020),
+        departure: new Date(2019),
+        id: 1
+      };
+
+      spyOn(component, 'getDateTime')
+        .and
+        .callFake(date => {
+          if (date === scheduleToEdit.arrival) {
+            return 'arrival';
+          } else if (date === scheduleToEdit.departure) {
+            return 'departure';
+          }
+          return '';
+        });
+
+    });
+    it('should initialize selectedSchedule with id equal to 0', () => {
+      component.selectedSchedule = null;
+
+      component.showEditModal(null);
+
+      expect(component.selectedSchedule).not.toEqual(null);
+      expect(component.selectedSchedule.id).toEqual(0);
+    });
+
+    it('should set selectedSchedule to parameter', () => {
+      component.selectedSchedule = null;
+
+      component.showEditModal(scheduleToEdit);
+
+      expect(component.selectedSchedule).toBe(scheduleToEdit);
+    });
+
+    it('should set dates', () => {
+      component.selectedSchedule = null;
+
+      component.showEditModal(scheduleToEdit);
+
+      expect(component.arrivalValue).toBe('arrival');
+      expect(component.departureValue).toBe('departure');
+    });
+  });
 });

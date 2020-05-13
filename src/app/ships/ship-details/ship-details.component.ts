@@ -45,7 +45,7 @@ export class ShipDetailsComponent implements OnInit {
       this.loadShipData();
     }
   }
-  private loadShipData() {
+  loadShipData() {
     this.service
       .getShip(this.shipId)
       .subscribe(x => {
