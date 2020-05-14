@@ -10,6 +10,7 @@ import { Schedule } from 'src/commons/entities/Ship';
 import { ScheduleService } from 'src/app/services/schedules/schedule.service';
 import { of } from 'rxjs';
 import { DeleteScheduleModalComponent } from 'src/app/schedules/delete-schedule-modal/delete-schedule-modal.component';
+import { EditScheduleModalComponent } from 'src/app/schedules/edit-schedule-modal/edit-schedule-modal.component';
 
 
 
@@ -23,7 +24,8 @@ describe('ShipDetailsComponent', () => {
         RouterTestingModule.withRoutes([])],
       declarations: [
         ShipDetailsComponent,
-        DeleteScheduleModalComponent
+        DeleteScheduleModalComponent,
+        EditScheduleModalComponent
       ],
       providers: [
         {

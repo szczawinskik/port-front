@@ -1,1 +1,38 @@
-<p>edit-schedule-modal works!</p>
+<div class="w3-modal">
+    <div class="w3-modal-content delete-modal" *ngIf="selectedSchedule">
+        <header class="w3-container w3-teal" >
+            <span (click)="hideEditModal()" class="w3-button w3-display-topright">&times;</span>
+            <h2 class="centered">{{selectedSchedule.id ? 'Edycja': 'Dodawanie' }} harmonogramu</h2>
+        </header>
+        <div class="w3-container modal-body">
+            <div class="form-group row">
+                <label for="staticEmail" class="col-sm-5 col-form-label">Data i godzina przyjścia</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" [(ngModel)]="arrivalValue">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="staticEmail" class="col-sm-5 col-form-label">Data i godzina odejścia</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" [(ngModel)]="departureValue">
+                </div>
+            </div>
+            <div *ngIf="invalidDate(arrivalValue) ||  invalidDate(departureValue)" class="error-message">
+                Wprowadzone dane są niepoprawne
+            </div>
+            <div *ngIf="scheduleOverlap" class="error-message">
+                Wprowadzony harmonogram pokrywa się z innym
+            </div>
+
+        </div>
+        <footer class="w3-container modal-footer">
+            <button class="btn btn-info mr-auto" (click)="hideEditModal()">
+                Anuluj
+            </button>
+            <button class="btn btn-danger" (click)="saveSchedule()"
+                [disabled]="invalidAny(arrivalValue, departureValue)">
+                Zapisz
+            </button>
+        </footer>
+    </div>
+</div>
