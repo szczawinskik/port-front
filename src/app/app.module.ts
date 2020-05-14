@@ -14,6 +14,7 @@ import { ShipsListComponent } from './ships/ships-list/ships-list.component';
 import { ShipDetailsComponent } from './ships/ship-details/ship-details.component';
 import { ScheduleTableComponent } from './ships/schedule-table/schedule-table.component';
 import { NgbAccordionModule} from '@ng-bootstrap/ng-bootstrap';
+import { DeleteScheduleModalComponent } from './schedules/delete-schedule-modal/delete-schedule-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NgbAccordionModule} from '@ng-bootstrap/ng-bootstrap';
     HomeComponent,
     ShipsListComponent,
     ShipDetailsComponent,
-    ScheduleTableComponent
+    ScheduleTableComponent,
+    DeleteScheduleModalComponent
   ],
   imports: [
     BrowserModule,
