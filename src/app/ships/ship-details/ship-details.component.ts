@@ -123,16 +123,11 @@ export class ShipDetailsComponent implements OnInit {
     this.deleteModal = false;
   }
 
-  deleteSchedule() {
-    if (this.selectedSchedule) {
-      this.scheduleService
-        .deleteSchedule(this.selectedSchedule.id)
-        .subscribe(() => {
-          this.loadShipData();
-          this.hideDeleteModal();
-        });
-    }
+  onSuccessfulDelete() {
+    this.loadShipData();
+    this.hideDeleteModal();
   }
+
   showEditModal(schedule: Schedule) {
     if (!schedule) {
       this.selectedSchedule = { id: 0, arrival: new Date(), departure: new Date() };

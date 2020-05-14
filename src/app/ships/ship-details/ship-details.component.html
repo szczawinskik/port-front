@@ -85,7 +85,8 @@
         </table>
     </ng-container>
     <div class="w3-container" *ngIf="deleteModal">
-        <app-delete-schedule-modal></app-delete-schedule-modal>
+        <app-delete-schedule-modal (successfulDelete)="onSuccessfulDelete()" [selectedSchedule]="selectedSchedule">
+        </app-delete-schedule-modal>
     </div>
 
     <div class="w3-container">

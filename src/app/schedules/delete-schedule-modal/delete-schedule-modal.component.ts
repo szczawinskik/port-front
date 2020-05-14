@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input } from '@angular/core';
+import { ScheduleService } from 'src/app/services/schedules/schedule.service';
+import { Schedule } from 'src/commons/entities/Ship';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-delete-schedule-modal',
@@ -7,10 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeleteScheduleModalComponent implements OnInit {
 
-  selectedSchedule = {};
-  constructor() { }
+  @Input() selectedSchedule: Schedule;
+  @Output() successfulDelete = new EventEmitter();
+
+  constructor(private scheduleService: ScheduleService) { }
 
   ngOnInit() {
   }
 
+  deleteSchedule() {
+    if (this.selectedSchedule) {
+      this.scheduleService
+        .deleteSchedule(this.selectedSchedule.id)
+        .subscribe(() => {
+          this.successfulDelete.emit(null);
+        });
+    }
+  }
 }

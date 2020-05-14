@@ -11,15 +11,11 @@ import { ScheduleService } from 'src/app/services/schedules/schedule.service';
 import { of } from 'rxjs';
 import { DeleteScheduleModalComponent } from 'src/app/schedules/delete-schedule-modal/delete-schedule-modal.component';
 
-class ScheduleServiceMock {
-  deleteSchedule(scheduleId: number) { return null; }
-}
+
 
 describe('ShipDetailsComponent', () => {
   let component: ShipDetailsComponent;
   let fixture: ComponentFixture<ShipDetailsComponent>;
-  let service: ScheduleService;
-  let injector: TestBed;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,9 +35,6 @@ describe('ShipDetailsComponent', () => {
               }
             }
           }
-        },
-        {
-          provide: ScheduleService, useClass: ScheduleServiceMock
         }
       ]
     })
@@ -246,6 +239,19 @@ describe('ShipDetailsComponent', () => {
     });
   });
 
+  describe('onSuccessfulDelete', () => {
+    beforeEach(() => {
+      spyOn(component, 'loadShipData');
+      spyOn(component, 'hideDeleteModal');
+    });
+    it('should reload ship data and hide modal', () => {
+      component.onSuccessfulDelete();
+
+      expect(component.loadShipData).toHaveBeenCalledTimes(1);
+      expect(component.hideDeleteModal).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('setupWeek', () => {
     it('should set weekStart to begining of week when day is not monday and sunday', () => {
       const date = new Date(2020, 4, 1);
@@ -275,50 +281,6 @@ describe('ShipDetailsComponent', () => {
       expect(component.weekStart.getFullYear()).toEqual(2020);
       expect(component.weekStart.getMonth()).toEqual(5);
       expect(component.weekStart.getDate()).toEqual(1);
-    });
-  });
-
-  describe('deleteSchedule', () => {
-    let scheduleToDelete: Schedule;
-    beforeEach(() => {
-      injector = getTestBed();
-      service = injector.get(ScheduleService);
-      spyOn(service, 'deleteSchedule')
-        .and
-        .returnValue(of('test'));
-
-      spyOn(component, 'hideDeleteModal');
-      spyOn(component, 'loadShipData');
-      scheduleToDelete = {
-        arrival: new Date(),
-        departure: new Date(),
-        id: 1
-      };
-    });
-    it('should not invoke service when selectedSchedule is null', () => {
-      component.selectedSchedule = null;
-
-      component.deleteSchedule();
-
-      expect(service.deleteSchedule).toHaveBeenCalledTimes(0);
-    });
-
-    it('should invoke service when selectedSchedule is not null', () => {
-      component.selectedSchedule = scheduleToDelete;
-
-      component.deleteSchedule();
-
-      expect(service.deleteSchedule).toHaveBeenCalledWith(scheduleToDelete.id);
-      expect(service.deleteSchedule).toHaveBeenCalledTimes(1);
-    });
-
-    it('should reload data and hide modal', () => {
-      component.selectedSchedule = scheduleToDelete;
-
-      component.deleteSchedule();
-
-      expect(component.loadShipData).toHaveBeenCalledTimes(1);
-      expect(component.hideDeleteModal).toHaveBeenCalledTimes(1);
     });
   });
 

@@ -4,7 +4,7 @@
             <span (click)="hideDeleteModal()" class="w3-button w3-display-topright">&times;</span>
             <h2 class="centered">Czy na pewno chcesz usunąć harmonogram?</h2>
         </header>
-        <div class="w3-container modal-body">
+        <div class="w3-container modal-body" *ngIf="selectedSchedule">
             <p>Data i godzina przyjścia: <b>{{selectedSchedule.arrival | date : 'y-MM-dd H:mm'}}</b></p>
             <p>Data i godzina odejścia: <b>{{selectedSchedule.departure | date : 'y-MM-dd H:mm'}}</b></p>
         </div>
